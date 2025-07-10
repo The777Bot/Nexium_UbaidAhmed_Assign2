@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 
 // Input component
@@ -57,17 +59,30 @@ const BlogForm = () => {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'English' | 'Urdu'>('English');
 
+  // Replace with your actual n8n webhook URL
+  const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/summarise';
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    // Placeholder: Replace with actual API call
-    setTimeout(() => {
-      setSummary({
-        en: 'This is a sample English summary for the blog at ' + url,
-        ur: 'یہ اس بلاگ کا اردو خلاصہ ہے: ' + url,
+    try {
+      const response = await fetch(N8N_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url }),
       });
-      setLoading(false);
-    }, 1200);
+      const data = await response.json();
+      setSummary({
+        en: data.en || '',
+        ur: data.ur || '',
+      });
+    } catch (error) {
+      setSummary({
+        en: 'Error connecting to n8n webhook.',
+        ur: 'n8n ویب ہک سے کنکشن میں خرابی۔',
+      });
+    }
+    setLoading(false);
   };
 
   return (
