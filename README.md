@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blog Summarizer App
+
+This project is a **Next.js** web application that allows users to input a blog URL and receive a summary in both English and Urdu. It demonstrates modern React/Next.js UI practices and integrates with **n8n** for backend automation and summarization.
+
+---
+
+## Features
+- Enter any blog/article URL and get a summary in English and Urdu
+- Clean, modern UI with reusable components (Input, Button, Card, Tabs, Textarea)
+- Integrates with [n8n](https://n8n.io/) for workflow automation
+- Easily extensible for more features or languages
+
+---
+
+## How It Works
+1. User enters a blog URL and clicks **Summarise**
+2. The app sends the URL to an n8n webhook
+3. n8n fetches the blog content, extracts the main text, and returns a summary in both English and Urdu
+4. The app displays the summaries in a tabbed interface
+
+---
 
 ## Getting Started
 
-First, run the development server:
-
+### 1. Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Run the Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Set Up n8n
+- Install and run n8n locally (`npm install -g n8n` and `n8n start`) or use [n8n cloud](https://n8n.io/cloud)
+- Create a workflow with:
+  - **Webhook** node (POST, path: `summarise`)
+  - **HTTP Request** node (GET, URL: `{{ $json["body"]["url"] }}`)
+  - **HTML Extract** node (extracts `<p>` tags)
+  - **Code** node (returns `{ en, ur }` summary)
+- Set the Webhook node to return the output of the last node
+- Activate the workflow
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Configure the Webhook URL
+- In `src/components/BlogForm.tsx`, set:
+  ```js
+  const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/summarise';
+  ```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Example Usage
+1. Enter a blog URL (e.g., `https://quotes.toscrape.com/`)
+2. Click **Summarise**
+3. View the English and Urdu summaries returned by n8n
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Customization & Deployment
+- You can extend the workflow to use AI summarization, email results, or save to a database
+- Deploy the app to [Vercel](https://vercel.com/) or your preferred platform
+- Deploy n8n to your own server or use n8n cloud
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Credits
+- Built with [Next.js](https://nextjs.org/)
+- Automation powered by [n8n](https://n8n.io/)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## License
+MIT

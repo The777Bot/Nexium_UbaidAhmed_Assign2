@@ -69,7 +69,7 @@ const BlogForm = () => {
       const response = await fetch(N8N_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ BlogUrl:url }),
       });
       const data = await response.json();
       setSummary({
@@ -92,7 +92,7 @@ const BlogForm = () => {
           label="Blog URL"
           type="url"
           value={url}
-          onChange={e => setUrl(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUrl(e.target.value)}
           placeholder="Enter blog URL"
           required
         />
