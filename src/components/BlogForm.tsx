@@ -69,12 +69,13 @@ const BlogForm = () => {
       const response = await fetch(N8N_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ BlogUrl:url }),
+        body: JSON.stringify({ BlogUrl: url }),
       });
       const data = await response.json();
+  
       setSummary({
-        en: data.en || '',
-        ur: data.ur || '',
+        en: data.text || '', // <- use returned full text
+        ur: data.text || '',              // <- optional, or extract Urdu part if needed
       });
     } catch (error) {
       setSummary({
@@ -84,6 +85,7 @@ const BlogForm = () => {
     }
     setLoading(false);
   };
+  
 
   return (
     <Card>

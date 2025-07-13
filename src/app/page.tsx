@@ -1,62 +1,34 @@
 import Image from "next/image";
 import BlogForm from "../components/BlogForm";
+import { Sparkles } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <BlogForm />
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="relative min-h-screen flex flex-col items-center justify-between py-8 px-4 overflow-x-hidden bg-gradient-to-br from-indigo-100 via-white to-purple-200 animate-gradient-move">
+      {/* Animated background blobs */}
+      <div className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-gradient-to-br from-indigo-300 via-purple-200 to-pink-200 rounded-full blur-3xl opacity-40 z-0 animate-pulse" />
+      <div className="absolute top-1/2 right-0 w-[300px] h-[300px] bg-gradient-to-br from-pink-200 via-purple-100 to-indigo-200 rounded-full blur-2xl opacity-30 z-0 animate-pulse" />
+      <main className="flex flex-col gap-10 items-center w-full max-w-2xl mx-auto z-10">
+        <div className="flex flex-col items-center gap-3 mt-12">
+          <span className="inline-flex items-center justify-center bg-gradient-to-tr from-indigo-400 to-purple-400 rounded-full p-3 shadow-lg mb-2">
+            <Sparkles className="w-8 h-8 text-white" />
+          </span>
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-gray-900 dark:text-white drop-shadow-lg tracking-tight">
+            Blog Summarizer
+          </h1>
+          <p className="text-lg sm:text-xl text-center text-gray-700 dark:text-gray-200 max-w-2xl mt-2">
+            Instantly generate concise, AI-powered English and Urdu summaries for any blog or article. <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent font-semibold">Powered by n8n & LLMs</span>.
+          </p>
+        </div>
+        {/* Glassmorphism Card for BlogForm */}
+        <div className="w-full max-w-xl mx-auto rounded-2xl bg-white/60 dark:bg-black/40 shadow-2xl backdrop-blur-lg border border-purple-200 dark:border-indigo-700 p-8 relative z-10">
+          <div className="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-indigo-300 via-purple-200 to-pink-200 opacity-40 blur-lg -z-10" />
+          <BlogForm />
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
+      <footer className="flex gap-8 flex-wrap items-center justify-center py-8 text-base text-gray-500 dark:text-gray-300 z-10">
         <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4 transition-colors"
           href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
           target="_blank"
           rel="noopener noreferrer"
@@ -65,13 +37,13 @@ export default function Home() {
             aria-hidden
             src="/file.svg"
             alt="File icon"
-            width={16}
-            height={16}
+            width={18}
+            height={18}
           />
           Learn
         </a>
         <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4 transition-colors"
           href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
           target="_blank"
           rel="noopener noreferrer"
@@ -80,13 +52,13 @@ export default function Home() {
             aria-hidden
             src="/window.svg"
             alt="Window icon"
-            width={16}
-            height={16}
+            width={18}
+            height={18}
           />
           Examples
         </a>
         <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4 transition-colors"
           href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
           target="_blank"
           rel="noopener noreferrer"
@@ -95,8 +67,8 @@ export default function Home() {
             aria-hidden
             src="/globe.svg"
             alt="Globe icon"
-            width={16}
-            height={16}
+            width={18}
+            height={18}
           />
           Go to nextjs.org →
         </a>
