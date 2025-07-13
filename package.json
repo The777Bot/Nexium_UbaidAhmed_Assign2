@@ -6,23 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "lint:fix": "next lint --fix",
-    "type-check": "tsc --noEmit",
-    "type-check:strict": "tsc --noEmit --strict",
-    "check-all": "npm run lint && npm run type-check && npm run build",
-    "pre-commit": "npm run lint:fix && npm run type-check",
-    "check-production": "node scripts/check-production.js",
-    "prepare": "husky install"
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md,css}": [
-      "prettier --write"
-    ]
+    "lint": "next lint"
   },
   "dependencies": {
     "@prisma/client": "^6.11.1",
@@ -50,11 +34,6 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.5",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.1.3",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "prettier": "^3.2.5",
     "prisma": "^6.11.1",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.5",
