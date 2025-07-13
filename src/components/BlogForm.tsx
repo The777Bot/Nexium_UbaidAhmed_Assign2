@@ -37,7 +37,7 @@ const BlogForm = () => {
         en: (englishPart || '').trim(),
         ur: urduPart,
       });
-    } catch (error) {
+    } catch {
       setSummary({
         en: 'Error connecting to n8n webhook.',
         ur: 'n8n ویب ہک سے کنکشن میں خرابی۔',
