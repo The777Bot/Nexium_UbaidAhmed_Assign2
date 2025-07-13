@@ -1,75 +1,114 @@
 # Blog Summarizer App
 
-This project is a **Next.js** web application that allows users to input a blog URL and receive a summary in both English and Urdu. It demonstrates modern React/Next.js UI practices and integrates with **n8n** for backend automation and summarization.
+This project is a **Next.js** web application that allows users to input a blog URL and receive a smart summary in both **English** and **Urdu**. It uses **n8n** for automation, AI-powered summarization (via LLM), and dynamic content extraction from the target blog.
 
 ---
 
-## Features
-- Enter any blog/article URL and get a summary in English and Urdu
-- Clean, modern UI with reusable components (Input, Button, Card, Tabs, Textarea)
-- Integrates with [n8n](https://n8n.io/) for workflow automation
-- Easily extensible for more features or languages
+## ✨ Features
+
+- 🔗 Input any public blog/article URL
+- 📑 Get a Gen Z-style summary in English
+- 🌐 Urdu translation of the same summary
+- 🧠 LLM-based summarization and translation powered by n8n
+- 🎨 Clean UI with reusable components (Input, Button, Card, Tabs, Textarea)
+- 🔧 Easily extendable for more languages, formats, or channels (e.g., email)
 
 ---
 
-## How It Works
+## 🛠 How It Works
+
 1. User enters a blog URL and clicks **Summarise**
-2. The app sends the URL to an n8n webhook
-3. n8n fetches the blog content, extracts the main text, and returns a summary in both English and Urdu
-4. The app displays the summaries in a tabbed interface
+2. The frontend sends this URL to an **n8n Webhook**
+3. n8n:
+   - Fetches the HTML content via **HTTP Request**
+   - Extracts readable text via **HTML Extract** node
+   - Joins and formats the text using a **Code node**
+   - Sends a **prompt to an LLM** (e.g., OpenAI) to summarize & translate
+   - Returns the final combined response (English + Urdu)
+4. The frontend **splits the English and Urdu parts** and displays them in tabs
 
 ---
 
-## Getting Started
+## 🖼️ n8n Workflow Diagram
 
-### 1. Install Dependencies
+<img src="/n8nworkflow.png" alt="n8n Workflow Diagram" width="700" />
+
+*Visual overview of the n8n workflow used for blog summarization and translation.*
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install Frontend Dependencies
+
 ```bash
 npm install
 ```
 
-### 2. Run the Development Server
+### 2. Run the Frontend Dev Server
+
 ```bash
 npm run dev
 ```
+
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 3. Set Up n8n
-- Install and run n8n locally (`npm install -g n8n` and `n8n start`) or use [n8n cloud](https://n8n.io/cloud)
-- Create a workflow with:
-  - **Webhook** node (POST, path: `summarise`)
-  - **HTTP Request** node (GET, URL: `{{ $json["body"]["url"] }}`)
-  - **HTML Extract** node (extracts `<p>` tags)
-  - **Code** node (returns `{ en, ur }` summary)
-- Set the Webhook node to return the output of the last node
-- Activate the workflow
+### 3. Set Up n8n Workflow
 
-### 4. Configure the Webhook URL
-- In `src/components/BlogForm.tsx`, set:
-  ```js
-  const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/summarise';
-  ```
+**n8n Workflow Nodes:**
+- **Webhook** (POST, path: `summarise`)
+- **HTTP Request** (GET content from `{{ $json["body"]["BlogUrl"] }}`)
+- **HTML Extract** (CSS selector: `p`, Return Value: Text, Return Array: ON, Key: `text`)
+- **Code** (joins paragraphs, builds LLM prompt, outputs `chatInput`)
+- **LLM** (uses `chatInput`, returns Gen Z summary + Urdu translation as one string in `text`)
+- **Respond to Webhook** (returns `{ text: "...combined response..." }`)
 
----
+### 4. Configure Frontend Webhook URL
 
-## Example Usage
-1. Enter a blog URL (e.g., `https://quotes.toscrape.com/`)
-2. Click **Summarise**
-3. View the English and Urdu summaries returned by n8n
+Inside `src/components/BlogForm.tsx`, set your webhook URL:
 
----
+```js
+const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/summarise';
+```
 
-## Customization & Deployment
-- You can extend the workflow to use AI summarization, email results, or save to a database
-- Deploy the app to [Vercel](https://vercel.com/) or your preferred platform
-- Deploy n8n to your own server or use n8n cloud
+### 5. Frontend Response Handling
 
----
+The returned `text` field contains both English and Urdu sections. The app splits them like this:
 
-## Credits
-- Built with [Next.js](https://nextjs.org/)
-- Automation powered by [n8n](https://n8n.io/)
+```js
+const [englishPart, urduPart] = (data.text || '').split(/And here'?s the translation in Urdu:/i);
+
+setSummary({
+  en: englishPart?.trim() || '',
+  ur: urduPart?.trim() || '',
+});
+```
 
 ---
 
-## License
+## 🧪 Example
+
+- **Input URL:** https://cupofjo.com/
+- **Output:**
+  - English summary in bullet points
+  - Urdu translation of those points in tabs
+
+---
+
+## 🚀 Deployment Notes
+- Deploy frontend to Vercel or your server
+- Run n8n locally (`n8n start`) or host it via n8n Cloud
+- Secure your webhook and LLM keys before public deployment
+
+---
+
+## 🧰 Tech Stack
+- **Frontend:** React (Next.js + TypeScript)
+- **Backend Automation:** n8n.io
+- **AI Integration:** LLM (OpenAI or others)
+- **Data Extraction:** HTML parsing with CSS selectors
+
+---
+
+## 📝 License
 MIT
