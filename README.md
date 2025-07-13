@@ -31,7 +31,7 @@ This project is a **Next.js** web application that allows users to input a blog 
 
 ## 🖼️ n8n Workflow Diagram
 
-<img src="/n8nworkflow.png" alt="n8n Workflow Diagram" width="700" />
+<img src="public/n8nworkflow.png" alt="n8n Workflow Diagram" width="700" />
 
 *Visual overview of the n8n workflow used for blog summarization and translation.*
 
