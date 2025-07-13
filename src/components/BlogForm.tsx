@@ -1,46 +1,48 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const BlogForm = () => {
-  const [url, setUrl] = useState('');
-  const [summary, setSummary] = useState({ en: '', ur: '' });
+  const [url, setUrl] = useState("");
+  const [summary, setSummary] = useState({ en: "", ur: "" });
   const [loading, setLoading] = useState(false);
 
-  const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/summarise';
+  const N8N_WEBHOOK_URL = "http://localhost:5678/webhook/summarise";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
       const response = await fetch(N8N_WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ BlogUrl: url }),
       });
       const data = await response.json();
 
-      const [englishPart, urduPartRaw] = (data.text || '').split(/===URDU TRANSLATION BELOW===/i);
-      let urduPart = '';
+      const [englishPart, urduPartRaw] = (data.text || "").split(
+        /===URDU TRANSLATION BELOW===/i
+      );
+      let urduPart = "";
       if (urduPartRaw) {
         urduPart = urduPartRaw
-          .replace(/Urdu Translation:/i, '')
-          .replace(/Note:.*$/i, '')
-          .split('\n')
+          .replace(/Urdu Translation:/i, "")
+          .replace(/Note:.*$/i, "")
+          .split("\n")
           .map((line: string) => line.trim())
           .filter((line: string) => line.length > 0)
-          .join('\n')
+          .join("\n")
           .trim();
       }
 
       setSummary({
-        en: (englishPart || '').trim(),
+        en: (englishPart || "").trim(),
         ur: urduPart,
       });
     } catch {
       setSummary({
-        en: 'Error connecting to n8n webhook.',
-        ur: 'n8n ویب ہک سے کنکشن میں خرابی۔',
+        en: "Error connecting to n8n webhook.",
+        ur: "n8n ویب ہک سے کنکشن میں خرابی۔",
       });
     }
     setLoading(false);
@@ -59,7 +61,7 @@ const BlogForm = () => {
         <input
           type="url"
           value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          onChange={e => setUrl(e.target.value)}
           placeholder="Enter blog URL"
           required
           className="w-full px-4 py-3 mb-6 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-400 outline-none"
@@ -69,7 +71,7 @@ const BlogForm = () => {
           disabled={loading}
           className="w-full py-3 rounded-lg bg-indigo-600 text-white font-bold hover:bg-indigo-700 transition duration-200"
         >
-          {loading ? 'Summarising...' : 'Summarise'}
+          {loading ? "Summarising..." : "Summarise"}
         </button>
       </form>
 
@@ -83,7 +85,9 @@ const BlogForm = () => {
             {/* English */}
             {summary.en && (
               <div>
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-2">English</h3>
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-2">
+                  English
+                </h3>
                 <p className="whitespace-pre-line text-gray-700 dark:text-gray-200 text-base sm:text-lg leading-relaxed">
                   {summary.en}
                 </p>
@@ -92,7 +96,9 @@ const BlogForm = () => {
             {/* Urdu */}
             {summary.ur && (
               <div>
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-2">Urdu</h3>
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-2">
+                  Urdu
+                </h3>
                 <p className="whitespace-pre-line text-right text-gray-700 dark:text-gray-200 text-base sm:text-lg leading-loose font-[Noto Nastaliq Urdu,serif]">
                   {summary.ur}
                 </p>

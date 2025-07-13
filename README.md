@@ -33,7 +33,7 @@ This project is a **Next.js** web application that allows users to input a blog 
 
 <img src="public/n8nworkflow.png" alt="n8n Workflow Diagram" width="700" />
 
-*Visual overview of the n8n workflow used for blog summarization and translation.*
+_Visual overview of the n8n workflow used for blog summarization and translation._
 
 ---
 
@@ -56,6 +56,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### 3. Set Up n8n Workflow
 
 **n8n Workflow Nodes:**
+
 - **Webhook** (POST, path: `summarise`)
 - **HTTP Request** (GET content from `{{ $json["body"]["BlogUrl"] }}`)
 - **HTML Extract** (CSS selector: `p`, Return Value: Text, Return Array: ON, Key: `text`)
@@ -68,7 +69,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 Inside `src/components/BlogForm.tsx`, set your webhook URL:
 
 ```js
-const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/summarise';
+const N8N_WEBHOOK_URL = "http://localhost:5678/webhook/summarise";
 ```
 
 ### 5. Frontend Response Handling
@@ -76,11 +77,13 @@ const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/summarise';
 The returned `text` field contains both English and Urdu sections. The app splits them like this:
 
 ```js
-const [englishPart, urduPart] = (data.text || '').split(/And here'?s the translation in Urdu:/i);
+const [englishPart, urduPart] = (data.text || "").split(
+  /And here'?s the translation in Urdu:/i
+);
 
 setSummary({
-  en: englishPart?.trim() || '',
-  ur: urduPart?.trim() || '',
+  en: englishPart?.trim() || "",
+  ur: urduPart?.trim() || "",
 });
 ```
 
@@ -96,6 +99,7 @@ setSummary({
 ---
 
 ## 🚀 Deployment Notes
+
 - Deploy frontend to Vercel or your server
 - Run n8n locally (`n8n start`) or host it via n8n Cloud
 - Secure your webhook and LLM keys before public deployment
@@ -103,6 +107,7 @@ setSummary({
 ---
 
 ## 🧰 Tech Stack
+
 - **Frontend:** React (Next.js + TypeScript)
 - **Backend Automation:** n8n.io
 - **AI Integration:** LLM (OpenAI or others)
@@ -111,4 +116,5 @@ setSummary({
 ---
 
 ## 📝 License
+
 MIT
