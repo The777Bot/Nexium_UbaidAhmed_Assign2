@@ -7,7 +7,8 @@ const BlogForm = () => {
   const [summary, setSummary] = useState({ en: "", ur: "" });
   const [loading, setLoading] = useState(false);
 
-  const N8N_WEBHOOK_URL = "http://localhost:5678/webhook/summarise";
+ // const N8N_WEBHOOK_URL = "https://railway.com/project/72a2e2bb-6767-4830-b89c-5a38de2bb84d?";
+  const N8N_WEBHOOK_URL = "https://n8n-production-1c19.up.railway.app/webhook/summarise";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
