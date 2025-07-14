@@ -10,8 +10,23 @@ This project is a **Next.js** web application that allows users to input a blog 
 - 📑 Get a Gen Z-style summary in English
 - 🌐 Urdu translation of the same summary
 - 🧠 LLM-based summarization and translation powered by n8n
-- 🎨 Clean UI with reusable components (Input, Button, Card, Tabs, Textarea)
+- 🎨 **Modern, premium UI/UX**: glassmorphism, animated gradients, blurred backgrounds, and advanced cards
+- 🌗 **Theme toggle**: Light/Dark mode with animated backgrounds and dynamic color schemes
+- 🟠 Responsive design for all devices
+- 🧩 Reusable components (Input, Button, Card, Tabs, Textarea)
+- 🏆 Features grid, hero section, and modern footer with social icons
 - 🔧 Easily extendable for more languages, formats, or channels (e.g., email)
+
+---
+
+## 🖌️ Modern UI & Theme System
+
+- **Glassmorphism**: Frosted glass cards and forms for a premium look
+- **Animated Backgrounds**: Blurred video and animated blobs for depth and motion
+- **Theme Toggle**: Switch between light (orange/yellow/white) and dark (indigo/purple/black) modes
+- **Persistent Preference**: Theme is saved in localStorage and respects system preference
+- **Dynamic Visuals**: Backgrounds and blobs update instantly with theme changes
+- **Footer Glow & Section Dividers**: Subtle effects for visual separation
 
 ---
 
@@ -109,6 +124,7 @@ setSummary({
 ## 🧰 Tech Stack
 
 - **Frontend:** React (Next.js + TypeScript)
+- **UI:** Tailwind CSS, shadcn/ui, Lucide icons
 - **Backend Automation:** n8n.io
 - **AI Integration:** LLM (OpenAI or others)
 - **Data Extraction:** HTML parsing with CSS selectors
