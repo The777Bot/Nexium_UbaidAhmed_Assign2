@@ -1,13 +1,23 @@
+"use client";
 import Image from "next/image";
 import BlogForm from "../components/BlogForm";
 import { Sparkles, Users, FileText, Star, Zap, Brain, Activity, Languages, ListOrdered, Globe, Github, Twitter, Linkedin } from "lucide-react";
+import { useTheme } from "../components/ThemeProvider";
 
 export default function Home() {
+  const { theme } = useTheme();
+  const blob1 = theme === "light"
+    ? "bg-gradient-to-br from-yellow-300 via-orange-200 to-yellow-100"
+    : "bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900";
+  const blob2 = theme === "light"
+    ? "bg-gradient-to-br from-orange-200 via-yellow-100 to-yellow-200"
+    : "bg-gradient-to-br from-pink-900 via-purple-900 to-indigo-900";
+
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-between overflow-x-hidden bg-gradient-to-br from-indigo-100 via-white to-purple-200 dark:from-gray-900 dark:via-black dark:to-gray-800 animate-gradient-move">
+    <div className="relative min-h-screen flex flex-col items-center justify-between overflow-x-hidden bg-gradient-to-br from-[#18192a] via-[#1a1333] to-[#0a0a16] animate-gradient-move">
       {/* 🌈 Animated Background Blobs */}
-      <div className="absolute -top-32 -left-32 w-[400px] h-[400px] bg-gradient-to-br from-indigo-300 via-purple-200 to-pink-200 rounded-full blur-3xl opacity-40 z-0 animate-pulse" />
-      <div className="absolute top-1/2 right-0 w-[300px] h-[300px] bg-gradient-to-br from-pink-200 via-purple-100 to-indigo-200 rounded-full blur-2xl opacity-30 z-0 animate-pulse" />
+      <div className={`absolute -top-32 -left-32 w-[400px] h-[400px] ${blob1} rounded-full blur-3xl opacity-40 z-0 animate-pulse`} />
+      <div className={`absolute top-1/2 right-0 w-[300px] h-[300px] ${blob2} rounded-full blur-2xl opacity-30 z-0 animate-pulse`} />
 
       {/* 🚀 Hero Section */}
       <section className="w-full flex flex-col items-center justify-center text-center pt-24 pb-16 z-10">

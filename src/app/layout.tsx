@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "../components/ThemeProvider";
 
 // Load fonts as CSS variables
 const geistSans = Geist({
@@ -30,10 +31,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased bg-white text-black dark:bg-black dark:text-white transition-colors duration-300`}
-      >
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased transition-colors duration-300`}>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
