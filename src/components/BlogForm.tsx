@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
-import { Copy, Check, Link2, Loader2 } from "lucide-react";
+import { Copy, Check, Link2, Loader2, X, CheckCircle } from "lucide-react";
 
 const BlogForm = () => {
   const [url, setUrl] = useState("");
@@ -12,12 +12,15 @@ const BlogForm = () => {
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState("en");
   const [copied, setCopied] = useState<{ en: boolean; ur: boolean }>({ en: false, ur: false });
+  const [showStoredMessage, setShowStoredMessage] = useState(false);
+  const [isFadingOut, setIsFadingOut] = useState(false);
 
   const N8N_WEBHOOK_URL = "https://n8n-production-1c19.up.railway.app/webhook/summarise";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setShowStoredMessage(false); // Reset message on new submit
     try {
       const response = await fetch(N8N_WEBHOOK_URL, {
         method: "POST",
@@ -42,6 +45,12 @@ const BlogForm = () => {
         ur: urduPart,
       });
       setTab("en");
+      setShowStoredMessage(true); // Show message after summary
+      setIsFadingOut(false);
+      setTimeout(() => {
+        setIsFadingOut(true);
+        setTimeout(() => setShowStoredMessage(false), 400); // Remove after fade-out
+      }, 3000);
     } catch {
       setSummary({
         en: "Error connecting to n8n webhook.",
@@ -105,32 +114,86 @@ const BlogForm = () => {
 
       {/* 📋 Advanced Summary Output with Tabs */}
       {(summary.en || summary.ur) && (
-        <div className="mt-14 bg-white/80 dark:bg-gray-900/80 shadow-2xl rounded-3xl px-4 sm:px-12 py-10 sm:py-14 border border-indigo-200 dark:border-indigo-600 w-full max-w-5xl mx-auto animate-fade-in-up">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-gradient mb-10 bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-            English & Urdu Summary
-          </h2>
-          <Tabs value={tab} onValueChange={setTab} className="w-full">
-            <TabsList className="mx-auto mb-8">
-              <TabsTrigger value="en">Nexium Project</TabsTrigger>
-              
-            </TabsList>
-            <TabsContent value="en">
-              <SummaryCard
-                lang="en"
-                text={summary.en}
-                copied={copied.en}
-                onCopy={() => handleCopy("en")}
-              />
-            </TabsContent>
-            <TabsContent value="ur">
-              <SummaryCard
-                lang="ur"
-                text={summary.ur}
-                copied={copied.ur}
-                onCopy={() => handleCopy("ur")}
-              />
-            </TabsContent>
-          </Tabs>
+        <>
+          <div className="mt-14 bg-white/80 dark:bg-gray-900/80 shadow-2xl rounded-3xl px-4 sm:px-12 py-10 sm:py-14 border border-indigo-200 dark:border-indigo-600 w-full max-w-5xl mx-auto animate-fade-in-up">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-gradient mb-10 bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+              English & Urdu Summary
+            </h2>
+            <Tabs value={tab} onValueChange={setTab} className="w-full">
+              <TabsList className="mx-auto mb-8">
+                <TabsTrigger value="en">Nexium Project</TabsTrigger>
+                
+              </TabsList>
+              <TabsContent value="en">
+                <SummaryCard
+                  lang="en"
+                  text={summary.en}
+                  copied={copied.en}
+                  onCopy={() => handleCopy("en")}
+                />
+              </TabsContent>
+              <TabsContent value="ur">
+                <SummaryCard
+                  lang="ur"
+                  text={summary.ur}
+                  copied={copied.ur}
+                  onCopy={() => handleCopy("ur")}
+                />
+              </TabsContent>
+            </Tabs>
+          </div>
+        </>
+      )}
+      {/* Toast Notification */}
+      {showStoredMessage && (
+        <div
+          className="fixed z-[9999] bottom-6 right-6 sm:right-6 sm:bottom-6 left-1/2 sm:left-auto sm:translate-x-0 -translate-x-1/2 sm:w-auto w-[90vw] flex justify-center"
+          style={{ pointerEvents: "none" }}
+        >
+          <div
+            className={`relative flex items-center gap-3 px-6 py-4 rounded-2xl bg-green-100/80 dark:bg-green-900/60 text-green-900 dark:text-green-100 shadow-2xl text-base font-semibold border-l-4 border-green-500 opacity-95 backdrop-blur-lg ${isFadingOut ? 'animate-toast-out' : 'animate-toast-in'}`}
+            style={{ pointerEvents: "auto", minWidth: 260 }}
+            role="status"
+            aria-live="polite"
+          >
+            <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0 animate-pop" />
+            <span className="flex-1 font-bold tracking-wide">Results are stored in Supabase.</span>
+            <button
+              onClick={() => {
+                setIsFadingOut(true);
+                setTimeout(() => setShowStoredMessage(false), 400);
+              }}
+              className="ml-2 p-1 rounded-full hover:bg-green-200/60 dark:hover:bg-green-800/60 transition-colors focus:outline-none"
+              aria-label="Close notification"
+              style={{ pointerEvents: "auto" }}
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          <style jsx>{`
+            @keyframes toast-in {
+              0% { transform: translateY(30px) scale(0.95); opacity: 0; }
+              100% { transform: translateY(0) scale(1); opacity: 1; }
+            }
+            .animate-toast-in {
+              animation: toast-in 0.35s cubic-bezier(0.4,0,0.2,1);
+            }
+            @keyframes toast-out {
+              0% { transform: translateY(0) scale(1); opacity: 1; }
+              100% { transform: translateY(30px) scale(0.95); opacity: 0; }
+            }
+            .animate-toast-out {
+              animation: toast-out 0.4s cubic-bezier(0.4,0,0.2,1);
+            }
+            @keyframes pop {
+              0% { transform: scale(0.7); }
+              80% { transform: scale(1.15); }
+              100% { transform: scale(1); }
+            }
+            .animate-pop {
+              animation: pop 0.4s cubic-bezier(0.4,0,0.2,1);
+            }
+          `}</style>
         </div>
       )}
     </div>

@@ -93,6 +93,7 @@ export default function Home() {
           </div>
           <div className="text-center text-gray-700 dark:text-gray-300 text-sm">
             © {new Date().getFullYear()} AI Blog Summarizer. Powered by the future of content analysis.
+            <div className="mt-1 text-xs text-indigo-600 dark:text-purple-200 font-semibold tracking-wide opacity-80">Crafted with <span className="inline-block animate-pulse">❤️</span> by Ubaid Ahmed</div>
           </div>
           <div className="flex items-center gap-6">
             <FooterLink href="#" label="Privacy" />
