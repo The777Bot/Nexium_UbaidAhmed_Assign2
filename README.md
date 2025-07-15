@@ -14,6 +14,7 @@ This project is a **Next.js** web application that allows users to input a blog 
 - 🌗 **Theme toggle**: Light/Dark mode with animated backgrounds and dynamic color schemes
 - 🟠 Responsive design for all devices
 - 🧩 Reusable components (Input, Button, Card, Tabs, Textarea)
+- 🗄️ Summarization results are stored in Supabase for future use/history
 - 🏆 Features grid, hero section, and modern footer with social icons
 - 🔧 Easily extendable for more languages, formats, or channels (e.g., email)
 
@@ -127,6 +128,7 @@ setSummary({
 - **UI:** Tailwind CSS, shadcn/ui, Lucide icons
 - **Backend Automation:** n8n.io
 - **AI Integration:** LLM (OpenAI or others)
+- **Database:** Supabase (stores summarization results)
 - **Data Extraction:** HTML parsing with CSS selectors
 
 ---
