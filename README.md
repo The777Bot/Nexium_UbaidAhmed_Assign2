@@ -1,3 +1,7 @@
+<p align="left">
+  <img src="public/favicon.ico" width="40" height="40" alt="Favicon" />
+</p>
+
 # Blog Summarizer App
 
 This project is a **Next.js** web application that allows users to input a blog URL and receive a smart summary in both **English** and **Urdu**. It uses **n8n** for automation, AI-powered summarization (via LLM), and dynamic content extraction from the target blog.
