@@ -1,5 +1,5 @@
 <p align="left">
-  <img src="public/favicon.ico" width="40" height="40" alt="Favicon" />
+  <img src="src/app/favicon.ico" width="40" height="40" alt="Favicon" />
 </p>
 
 # Blog Summarizer App
